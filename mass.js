@@ -68,7 +68,7 @@ function generate_row(){
     t_row.appendChild(generate_td("count", "", next_row, [], false))
 
     t_row.appendChild(generate_td("text", "PO Number", "po_number_" + next_row, [], false));
-    t_row.appendChild(generate_td("select", "Product Name", "product_name_" + next_row, ["OPC", "PPC"], false));
+    t_row.appendChild(generate_td("select", "Product Name", "product_name_" + next_row, ["PPC", "O  PC"], false));
     t_row.appendChild(generate_td("select", "Product Type", "product_type_" + next_row, ["Bagged", "Bulk"], false));
     t_row.appendChild(generate_td("number", "Quantity", "quantity_" + next_row, [], false));
     t_row.appendChild(generate_td("date", "Delivery Date", "delvery_date_" + next_row, [], false));
@@ -121,7 +121,15 @@ function generate_text_input(input_type, hint, id, is_hidden){
     }
 
     text_input = input_styling(text_input);
-    return text_input;
+
+    error_span = document.createElement("span");
+
+    parent_span = document.createElement("span");
+
+    parent_span.appendChild(text_input);
+    parent_span.appendChild(error_span);
+
+    return parent_span;
 }
 
 function generate_drop_down(elements, id, is_hidden){
