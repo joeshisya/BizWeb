@@ -7,13 +7,6 @@ $( document ).ready(function() {
         t_body = document.getElementById("mass-tbody");
         no_of_rows = t_body.childElementCount;
         next_row = no_of_rows + 1;
-
-        if(no_of_rows < 10){
-            generate_row();
-        }
-        else{
-            alert("Sus!");
-        }
     });
 
     $("#submit-all").click(function() {
@@ -65,7 +58,8 @@ function generate_row(){
 
     t_row = document.createElement("tr");
 
-    t_row.appendChild(generate_td("count", "", next_row, [], false))
+    t_row.appendChild(generate_td("count", "", next_row, [], false));
+    t_row.appendChild(generate_td("result", "", next_row, [], false));
 
     t_row.appendChild(generate_td("text", "PO Number", "po_number_" + next_row, [], false));
     t_row.appendChild(generate_td("select", "Product Name", "product_name_" + next_row, ["PPC", "O  PC"], false));
@@ -104,6 +98,9 @@ function generate_td(input_type, hint, id, elements, is_hidden){
     }
     else if(input_type === "count"){
         td.appendChild(document.createTextNode(id));
+    }
+    else if(input_type === "result"){
+        td.setAttribute('id', 'result_' + id);
     }
 
     return td;
@@ -159,7 +156,9 @@ function input_styling(input_element){
     return input_element;
 }
 
-function validate_data(){    
+function validate_data(){   
+    all_orders_okay = true;
+
     t_body = document.getElementById("mass-tbody");
     orders_dict = {}
     children_count = t_body.childElementCount;
@@ -167,8 +166,10 @@ function validate_data(){
     for (count = 1; count <= children_count; count++) {
         key = count.toString();
         current_order = get_order(count);
-        validate_order(current_order, count);
+        all_orders_okay = validate_order(current_order, count);
     }
+
+    return all_orders_okay;
 }
 
 function get_order(count){
@@ -213,5 +214,12 @@ function validate_order(order, count){
 
     if(order_has_error){
         document.getElementById("trow_" + count).classList.add("order-error");
+        document.getElementById("trow_" + count).classList.remove("order-ok");
+        return false;
+    }
+    else{
+        document.getElementById("trow_" + count).classList.add("order-error");
+        document.getElementById("trow_" + count).classList.remove("order-ok");
+        return true;
     }
 }

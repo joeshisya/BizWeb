@@ -52,3 +52,7 @@
 .order-error{
     background: rgb(255 37 37 / 85%);
 }
+
+.order-ok{
+    background: rgb(255 255 255);
+}
